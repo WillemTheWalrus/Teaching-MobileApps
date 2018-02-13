@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.wmd42.picturepractice.MainActivity">
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -20,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/savePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -30,59 +41,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
-        app:layout_constraintEnd_toEndOf="@+id/choosePic"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-    <ImageButton
-        android:id="@+id/noRed"
-        style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/image"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:srcCompat="@android:color/background_light" />
-
-    <ImageButton
-        android:id="@+id/noGreen"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:srcCompat="@android:color/background_light" />
-
-    <ImageButton
-        android:id="@+id/noBlue"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:srcCompat="@android:color/background_light" />
+    <Button
+        android:id="@+id/choosePic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onChoosePicClick"
+        android:text="Pick a picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ImageButton
         android:id="@+id/negateRed"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         app:layout_constraintEnd_toStartOf="@+id/image"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noGreen"
         app:srcCompat="@android:color/background_light" />
 
@@ -91,9 +71,10 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="@+id/image"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/noRed"
         app:srcCompat="@android:color/background_light" />
@@ -102,8 +83,12 @@
         android:id="@+id/negateBlue"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/noBlue"
         app:srcCompat="@android:color/background_light" />
@@ -113,19 +98,13 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/negateRed"
-        app:srcCompat="@android:color/background_light" />
-
-    <ImageButton
-        android:id="@+id/addNoise"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/negateBlue"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/image"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/negateRed"
         app:srcCompat="@android:color/background_light" />
 
     <ImageButton
@@ -133,22 +112,68 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/addNoise"
-        app:layout_constraintStart_toEndOf="@+id/greyScale"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="@+id/image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/negateGreen"
         app:srcCompat="@android:color/background_light" />
 
-    <Button
-        android:id="@+id/choosePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onChoosePicClick"
-        android:text="Pick a picture"
+    <ImageButton
+        android:id="@+id/addNoise"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/negateBlue"
+        app:srcCompat="@android:color/background_light" />
+
+    <ImageButton
+        android:id="@+id/noGreen"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/image"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:srcCompat="@android:color/background_light" />
+
+    <ImageButton
+        android:id="@+id/noRed"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="@+id/image"
+        app:layout_constraintStart_toStartOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:srcCompat="@android:color/background_light" />
+
+    <ImageButton
+        android:id="@+id/noBlue"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toEndOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:srcCompat="@android:color/background_light" />
 
 </android.support.constraint.ConstraintLayout>
