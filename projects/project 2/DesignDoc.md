@@ -19,5 +19,5 @@ February 12, 2018
   Usage:
   
     Here is the starting UI, where you can either choose to take a picture or select one from the gallery
-    [pic1]: (/Teaching-MobileApps/projects/project 2/Screenshot_20180212-232318.png)
+    [pic1]: (Teaching-MobileApps/projects/project 2/Screenshot_20180212-232318.png)
     ![alt-text][pic1]
