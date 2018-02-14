@@ -5,7 +5,7 @@
     android:id="@+id/Mainlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wmd42.picturepractice.MainActivity">
+    tools:context="com.willemthewalrus.devimgexample.MainActivity">
 
     <ImageView
         android:id="@+id/image"
