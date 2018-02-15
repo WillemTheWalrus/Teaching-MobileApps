@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 setContentView(R.layout.selectphoto);
                 ImageView iv = (ImageView) findViewById(R.id.viewer);
                 Bitmap bitmap = ((BitmapDrawable)butt.getDrawable()).getBitmap();
+                defaultbitmap = bitmap;
                 iv.setImageBitmap(bitmap);
             }
         });
@@ -98,15 +99,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
-        try{
-            saveToStorage();
-        }catch (IOException e){
-            Toast.makeText(this,"it didnt save",Toast.LENGTH_LONG).show();
-        }
-
-
 
         if(requestCode == CAN_REQUEST) {
+            try{
+                saveToStorage();
+            }catch (IOException e){
+                Toast.makeText(this,"it didnt save",Toast.LENGTH_LONG).show();
+            }
+
             //code taken from https://developer.android.com/training/camera/photobasics.html
             //for this method
             super.onActivityResult(requestCode, resultCode, data);
@@ -181,11 +181,18 @@ public class MainActivity extends AppCompatActivity {
         dispatchTakePictureIntent();
     }
 
-    public void onChoosePicClick(View view){
+    public void onChoosePicClick(View view) throws IOException{
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        File imgfile = createImageFile();
+        Uri photoURI = FileProvider.getUriForFile(this,
+                "com.willemthewalrus.devimgexample.fileprovider",
+                imgfile);
+        intent.setData(photoURI);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), GAL_REQUEST);
+
+
 
     }
 
@@ -350,20 +357,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveOnClick(View view) throws IOException{
-        BitmapDrawable draw = (BitmapDrawable)Viewer.getDrawable();
-        Bitmap map = draw.getBitmap();
+        File srcpath = new File(mCurrentPhotoPath);
 
-        FileOutputStream outstream = null;
-        File outfile = createImageFile();
-
-        outstream = new FileOutputStream(outfile);
-        map.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+        
+        FileOutputStream outstream = new FileOutputStream(srcpath);
+        defaultbitmap.compress(Bitmap.CompressFormat.JPEG, 80, outstream);
         outstream.flush();
         outstream.close();
-
         Intent galintent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        galintent.setData(Uri.fromFile(outfile));
+        galintent.setData(Uri.fromFile(srcpath));
         sendBroadcast(galintent);
+        setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+
     }
 
 }
