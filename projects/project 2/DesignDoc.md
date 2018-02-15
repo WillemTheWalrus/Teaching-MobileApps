@@ -4,17 +4,13 @@ Adam Carter
 February 12, 2018
 
                                                             Project 2 Design Doc
-  Introduction: This project was brutal for me. I have just finished spending the last 5 hours trying to figure out how to save files to
-  my device and make them display in the gallery app. I accomplished neither of these things. It is my fault for not giving myself enough time 
-  to ask you questions in class about this, however I feel as if it is important that I mention this becaus ewhat I am turning in is a broken App.
-  You cannot save photos, and if you wish to go back the original page to take another photo, you must first restart the app before 
-  you can see new effects. I am sorry that I am turning in half a project but I hope to come in and get help with this project soon. Now to 
-  show you what I have done so far.
+  Introduction: This project was brutal for me. I put a lot of time into making this app work and I initially submitted an app that did not work. Even though it is 2 days later, I am happy to say that I now have a functional app that can save modified images. It does not yet display them in the gallery but I intend to continue to work on this project to provide this functionality. 
+  
   
   Requirements:
   * You need to be running an Android with at least API 18: 4.3(Jelly Bean) in order to run this App
   * The device must also have a camera equipped
-  * There must be enough open storage to save files (for if and when the app is functional)
+  * There must be enough open storage to save files 
   
   Usage:
   
@@ -34,7 +30,7 @@ February 12, 2018
  
  ![choose effect](https://github.com/WillemTheWalrus/Teaching-MobileApps/blob/master/projects/project%202/Screenshot_20180212-232346.png)
  
- from here you will then be taken to an enlarged screen where you can choose to save you photo if that button was actually functional :(
+ from here you will then be taken to an enlarged screen where you can choose to save you photo to internal storage. 
  
  ![save photo](https://github.com/WillemTheWalrus/Teaching-MobileApps/blob/master/projects/project%202/Screenshot_20180212-232354.png)
  
@@ -50,3 +46,6 @@ February 12, 2018
   3. Now press the image button for the effect you would like to have applied to your picture
   4. From here, if the saving function actually worked, you would press save image and then be redirected to the first screen. 
       Unfortunately I was unable to figure out how to do this. I will see you later this week with questions. 
+      
+     Note: The location that the files save to (within the file explorer) on my device is: 
+          /My Files/Internal Storage/Android/data/com.willemthewalrus.devimgexample/files/Pictures
