@@ -1,5 +1,6 @@
 package com.willemthewalrus.whatisit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,11 +52,12 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentPhotoPath;
     private final String APIkey = "AIzaSyBC9ExL_zo1LKXYWSZxccj4mRaIJ7qJpQE";
     private final int REQUEST_IMAGE_CAPTURE = 1313;
-
+    public List<EntityAnnotation> responses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         
     }
 
@@ -77,6 +82,13 @@ public class MainActivity extends AppCompatActivity {
         dispatchTakePictureIntent();
     }
 
+    
+    public void restartactivity(View view){
+
+    }
+    public void yesClick(View view){
+
+    }
     private void dispatchTakePictureIntent() {
 
         //taken from
@@ -121,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setText(View view) {
 
-    }
 
     public static byte[] fileToByteArray(String filepath) {
         File workingfile = new File(filepath);
@@ -142,26 +152,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
-    }
-
 
     class getResponse extends AsyncTask<String, String, BatchAnnotateImagesResponse> {
 
         private String path;
         private String key;
         TextView txt;
+        ImageView img;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            txt = (TextView)findViewById(R.id.textView);
+            setContentView(R.layout.scoreguess);
+            txt = (TextView)findViewById(R.id.textView2);
             txt.setText("Please wait while we analyze the image");
+
+            //display picture that is being analyzed
+            img = (ImageView)findViewById(R.id.analyzedIMG);
+            File pic = new File(mCurrentPhotoPath);
+
+            Picasso.with(getApplicationContext()).load(pic).into(img);
+            Log.i("context", getApplicationContext().toString());
+
+
+
+
         }
 
         @Override
@@ -219,12 +234,17 @@ public class MainActivity extends AppCompatActivity {
             String responseout = "";
             List<AnnotateImageResponse> imgresponses = result.getResponses();
             List<EntityAnnotation> annotations = imgresponses.get(0).getLabelAnnotations();
+            String[] descriptions = new String[annotations.size()];
+            Float[] scores = new Float[annotations.size()];
             for (int i = 0; i < annotations.size(); i++) {
+                descriptions[i] = annotations.get(i).getDescription();
+                scores[i] = annotations.get(i).getScore();
                 responseout += annotations.get(i).toString() + "\n";
             }
-            Log.i("display", responseout);
-            txt.setText(responseout);
 
+            Log.i("display", responseout);
+            txt.setText("Does your picture containt a " + descriptions[0]);
+            responses = annotations;
 
 
         }
