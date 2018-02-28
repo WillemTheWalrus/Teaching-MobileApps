@@ -1,7 +1,7 @@
 package com.willemthewalrus.whatisit;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,21 +11,15 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.Json;
 
 import com.google.api.services.vision.v1.Vision;
 import com.google.api.services.vision.v1.VisionRequestInitializer;
@@ -45,13 +39,13 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
     private String mCurrentPhotoPath;
-    private final String APIkey = "AIzaSyBC9ExL_zo1LKXYWSZxccj4mRaIJ7qJpQE";
+    private final String APIkey = keyclass.key;
     private final int REQUEST_IMAGE_CAPTURE = 1313;
+
     public List<EntityAnnotation> responses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +76,53 @@ public class MainActivity extends AppCompatActivity {
         dispatchTakePictureIntent();
     }
 
-    
+    public void noClick(View view){
+        setContentView(R.layout.apifailure);
+    }
+
+    public void confirmClick(View view){
+
+        String inIMG;
+        EditText IMGobject = (EditText) findViewById(R.id.editText);
+        TextView finalText;
+        inIMG = IMGobject.getText().toString();
+        float secondaryscore =0;
+        boolean inResponses = false;
+        setContentView(R.layout.apifailureresult);
+
+        for(int i = 0; i < responses.size(); i++){
+            Log.i("description", responses.get(i).getDescription());
+            Log.i("userinput", inIMG);
+            if (inIMG.equals(responses.get(i).getDescription())){
+                inResponses = true;
+                secondaryscore = responses.get(i).getScore();
+                break;
+            }
+        }
+
+        if(inResponses){
+            finalText = (TextView)findViewById(R.id.FinalText);
+            finalText.setText(String.format("I thought %s was in your picture. There was a %.3f " +
+                    "chance that was in your picture",inIMG,secondaryscore));
+        }
+        else{
+            finalText = (TextView)findViewById(R.id.FinalText);
+            finalText.setText("Dang! I had no idea that was in your picture");
+        }
+
+    }
+
     public void restartactivity(View view){
-
+        setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
+
     public void yesClick(View view){
-
+        setContentView(R.layout.apisuccess);
     }
+
     private void dispatchTakePictureIntent() {
 
         //taken from
@@ -159,11 +193,14 @@ public class MainActivity extends AppCompatActivity {
         private String key;
         TextView txt;
         ImageView img;
+        Button yesButton;
+        Button noButton;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             setContentView(R.layout.scoreguess);
+
             txt = (TextView)findViewById(R.id.textView2);
             txt.setText("Please wait while we analyze the image");
 
@@ -174,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext()).load(pic).into(img);
             Log.i("context", getApplicationContext().toString());
 
+            yesButton = (Button)findViewById(R.id.yes);
+            noButton = (Button)findViewById(R.id.no);
+
+            yesButton.setEnabled(false);
+            noButton.setEnabled(false);
 
 
 
@@ -244,6 +286,9 @@ public class MainActivity extends AppCompatActivity {
 
             Log.i("display", responseout);
             txt.setText("Does your picture containt a " + descriptions[0]);
+            noButton.setEnabled(true);
+            yesButton.setEnabled(true);
+
             responses = annotations;
 
 
