@@ -17,4 +17,6 @@ For this project I learned how to implement the google cloud vision API and how,
     * Has a minimum API level 0f 21 (Android 5.0 Lollipop)
   ## Use Cases (With pictures)
   
+  ![alt text][shot1](https://github.com/WillemTheWalrus/Teaching-MobileApps/blob/master/projects/project%203/Screenshot_20180227-215843.png "screenshot 1")
+  
   
